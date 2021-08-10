@@ -1,0 +1,43 @@
+name: vagrant-up
+
+on: [push]
+
+jobs:
+    vagrant-up:
+        runs-on: macos-10.15 
+        env: 
+           VAGRANT_CLOUD_TOKEN: ${{ secrets.VAGRANT_CLOUD_TOKEN }}
+
+        steps:
+            - uses: actions/checkout@v2
+
+            - name: Cache Vagrant boxes
+              uses: actions/cache@v2
+              with:
+                  path: ~/.vagrant.d/boxes
+                  key: ${{ runner.os }}-vagrant-${{ hashFiles('Vagrantfile') }}
+                  restore-keys: |
+                      ${{ runner.os }}-vagrant-
+
+            - name: vagrant install plugin
+              run: |
+                   vagrant plugin install vagrant-vbguest --plugin-version 0.21
+
+            - name: vagrant up
+              run: |
+                    vagrant up
+
+            - name: vagrant status
+              run: |
+                    vagrant status
+
+            - name: package box
+              run: |
+                    vagrant package --base vagrant-centos7 --output centos7.box
+
+            - name: vagrant upload
+              run: |
+                    bash ./.github/script/vagrant.sh centos7
+
+
+            
