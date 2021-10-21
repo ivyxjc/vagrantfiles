@@ -29,14 +29,14 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                file: ["debian/debian-9.13-amd64.json",
-                       "debian/debian-10.10-amd64.json",
-                       "debian/debian-11.0-amd64.json",
-                       "ubuntu/ubuntu-18.04-amd64.json",
-                       "ubuntu/ubuntu-20.04-amd64.json",
-                       "ubuntu/ubuntu-20.04-live-amd64.json",
-                       "ubuntu/ubuntu-20.10-amd64.json",
-                       "ubuntu/ubuntu-21.04-amd64.json"]
+                file: ["debian/debian-9.13-amd64.pkr.hcl",
+                       "debian/debian-10.10-amd64.pkr.hcl",
+                       "debian/debian-11.0-amd64.pkr.hcl",
+                       "ubuntu/ubuntu-18.04-amd64.pkr.hcl",
+                       "ubuntu/ubuntu-20.04-amd64.pkr.hcl",
+                       "ubuntu/ubuntu-20.04-live-amd64.pkr.hcl",
+                       "ubuntu/ubuntu-20.10-amd64.pkr.hcl",
+                       "ubuntu/ubuntu-21.04-amd64.pkr.hcl"]
         defaults:
             run:
                 shell: bash
@@ -64,7 +64,7 @@ jobs:
               run: |
                   task_folder=$(echo ${{ matrix.file }} | awk -F/ '{print $1}')
                   task_file=$(echo ${{ matrix.file }} | awk -F/ '{print $2}')
-                  task_box=$(echo ${{ matrix.file }} | awk -F/ '{print $2}' | perl -n -e '/(.*)-amd64.json/ && print $1')
+                  task_box=$(echo ${{ matrix.file }} | awk -F/ '{print $2}' | perl -n -e '/(.*)-amd64.pkr.hcl/ && print $1')
                   echo "$task_folder"
                   echo "$task_file"
                   echo "$task_box"
@@ -121,7 +121,7 @@ jobs:
               if: steps.check-diff.outputs.has_diff == 'true'
               working-directory: packer_templates/${{ steps.task-info.outputs.task_folder }}
               run: |
-                  packer build -only=virtualbox-iso ${{ steps.task-info.outputs.task_file }}
+                  packer build -only=virtualbox-iso.default ${{ steps.task-info.outputs.task_file }}
 
             - name: list box
               if: steps.check-diff.outputs.has_diff == 'true'
