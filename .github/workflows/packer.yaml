@@ -36,8 +36,7 @@ jobs:
                        "ubuntu/ubuntu-20.04-amd64.json",
                        "ubuntu/ubuntu-20.04-live-amd64.json",
                        "ubuntu/ubuntu-20.10-amd64.json",
-                       "ubuntu/ubuntu-21.04-amd64.json",
-                       "arch/arch-amd64.json"]
+                       "ubuntu/ubuntu-21.04-amd64.json"]
         defaults:
             run:
                 shell: bash
