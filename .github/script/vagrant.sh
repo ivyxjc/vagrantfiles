@@ -1,5 +1,5 @@
 #!/bin/bash
-version=$(date +%Y%m%d%H%M) 
+version=$(date +%Y%m%d) 
 box_name=$1
 
 echo -n "$b "

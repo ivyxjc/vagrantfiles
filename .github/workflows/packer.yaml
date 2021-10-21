@@ -30,13 +30,14 @@ jobs:
             fail-fast: false
             matrix:
                 file: ["debian/debian-9.13-amd64.json",
-                        "debian/debian-10.10-amd64.json",
-                        "debian/debian-11.0-amd64.json",
-                        "ubuntu/ubuntu-18.04-amd64.json",
-                        "ubuntu/ubuntu-20.04-amd64.json",
-                        "ubuntu/ubuntu-20.04-live-amd64.json",
-                        "ubuntu/ubuntu-20.10-amd64.json",
-                        "ubuntu/ubuntu-21.04-amd64.json"]
+                       "debian/debian-10.10-amd64.json",
+                       "debian/debian-11.0-amd64.json",
+                       "ubuntu/ubuntu-18.04-amd64.json",
+                       "ubuntu/ubuntu-20.04-amd64.json",
+                       "ubuntu/ubuntu-20.04-live-amd64.json",
+                       "ubuntu/ubuntu-20.10-amd64.json",
+                       "ubuntu/ubuntu-21.04-amd64.json",
+                       "arch/arch-amd64.json"]
         defaults:
             run:
                 shell: bash
@@ -77,10 +78,9 @@ jobs:
               run: |
                   git diff ${{ needs.check-commit.outputs.latest_sha }} HEAD packer_templates/${{ steps.task-info.outputs.task_folder }} > diff.txt 2>&1 || true
 
-            - name: force run
-              run: |
-                 echo "diff" > diff.txt
-
+            # - name: force run
+            #   run: |
+            #      echo "diff" > diff.txt
 
             - name: check diff
               id: check-diff
